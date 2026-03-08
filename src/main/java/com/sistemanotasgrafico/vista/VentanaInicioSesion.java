@@ -43,11 +43,63 @@ public class VentanaInicioSesion {
         ventanaInicioSesion.setVisible(true);
     }
 
+    public void cerrarVentana() {
+        ventanaInicioSesion.setVisible(false);;
+    }
+
     public void aniadirEventoIniciarSesion(ActionListener l) {
         botonIniciarSesion.addActionListener(l);
     }
 
     public void aniadirEventoRegistrar(ActionListener l) {
         botonIrARegistro.addActionListener(l);
+    }
+
+    public JFrame getVentanaInicioSesion() {
+        return ventanaInicioSesion;
+    }
+
+    public void setVentanaInicioSesion(JFrame ventanaInicioSesion) {
+        this.ventanaInicioSesion = ventanaInicioSesion;
+    }
+
+    public JPanel getPanelFormulario() {
+        return panelFormulario;
+    }
+
+    public void setPanelFormulario(JPanel panelFormulario) {
+        this.panelFormulario = panelFormulario;
+    }
+
+    public JTextField getTextoEmail() {
+        return textoEmail;
+    }
+
+    public void setTextoEmail(JTextField textoEmail) {
+        this.textoEmail = textoEmail;
+    }
+
+    public JPasswordField getTextoContrasenia() {
+        return textoContrasenia;
+    }
+
+    public void setTextoContrasenia(JPasswordField textoContrasenia) {
+        this.textoContrasenia = textoContrasenia;
+    }
+
+    public JButton getBotonIniciarSesion() {
+        return botonIniciarSesion;
+    }
+
+    public void setBotonIniciarSesion(JButton botonIniciarSesion) {
+        this.botonIniciarSesion = botonIniciarSesion;
+    }
+
+    public JButton getBotonIrARegistro() {
+        return botonIrARegistro;
+    }
+
+    public void setBotonIrARegistro(JButton botonIrARegistro) {
+        this.botonIrARegistro = botonIrARegistro;
     }
 }

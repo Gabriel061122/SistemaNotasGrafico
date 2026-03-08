@@ -48,6 +48,10 @@ public class VentanaInicial {
         ventana.setVisible(true);
     }
 
+    public void cerrarVentana() {
+        ventana.setVisible(false);
+    }
+
     public void  aniadirEventoIniciar(ActionListener l){
         botonIniciar.addActionListener(l);
     }
@@ -58,5 +62,45 @@ public class VentanaInicial {
 
     public void  aniadirEventoSalir(ActionListener l){
         botonSalir.addActionListener(l);
+    }
+
+    public JFrame getVentana() {
+        return ventana;
+    }
+
+    public void setVentana(JFrame ventana) {
+        this.ventana = ventana;
+    }
+
+    public JPanel getPanelPrincipal() {
+        return panelPrincipal;
+    }
+
+    public void setPanelPrincipal(JPanel panelPrincipal) {
+        this.panelPrincipal = panelPrincipal;
+    }
+
+    public JButton getBotonIniciar() {
+        return botonIniciar;
+    }
+
+    public void setBotonIniciar(JButton botonIniciar) {
+        this.botonIniciar = botonIniciar;
+    }
+
+    public JButton getBotonRegistrar() {
+        return botonRegistrar;
+    }
+
+    public void setBotonRegistrar(JButton botonRegistrar) {
+        this.botonRegistrar = botonRegistrar;
+    }
+
+    public JButton getBotonSalir() {
+        return botonSalir;
+    }
+
+    public void setBotonSalir(JButton botonSalir) {
+        this.botonSalir = botonSalir;
     }
 }
