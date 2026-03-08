@@ -188,6 +188,11 @@ public class Presentador {
 
            });
 
+           ventanaPrincipal.getBotonCerrarSesion().addActionListener(e -> {
+               ventanaPrincipal.cerrarVentana();
+               ventanaIniciarSesion.mostrarVentana();
+           });
+
        } catch (IOException e) {
            cerrarPrograma();
        }

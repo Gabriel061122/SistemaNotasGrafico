@@ -23,6 +23,7 @@ public class VentanaPrincipal {
     private JButton botonLimpiarCampos;
     private JButton botonBorrarNotas;
     private JButton botonActualizar;
+    private JButton botonCerrarSesion;
 
     public VentanaPrincipal() {
 
@@ -39,6 +40,7 @@ public class VentanaPrincipal {
         botonLimpiarCampos = new JButton("Limpiar Campos");
         botonBorrarNotas = new JButton("Borrar");
         botonActualizar = new JButton("Actualizar");
+        botonCerrarSesion = new JButton("Cerrar Sesion");
 
 
         panelNotas = new JPanel();
@@ -60,6 +62,7 @@ public class VentanaPrincipal {
         panelAcciones.add(botonLimpiarCampos);
         panelNotas.add(textoTitulo);
         panelAcciones.add(botonBorrarNotas);
+        panelAcciones.add(botonCerrarSesion);
         panelContenido.add(botonActualizar);
         ventanaPrincipal.add(panelTitulo, BorderLayout.NORTH);
         ventanaPrincipal.add(panelNotas, BorderLayout.WEST);
@@ -90,6 +93,10 @@ public class VentanaPrincipal {
 
     public void aniadirEventoActualizar(ActionListener l){
         botonActualizar.addActionListener(l);
+    }
+
+    public void aniadirEventoCerrarSesion(ActionListener l){
+        botonCerrarSesion.addActionListener(l);
     }
 
     public JFrame getVentanaPrincipal() {
@@ -198,6 +205,14 @@ public class VentanaPrincipal {
 
     public JTextField getTextoBuscar() {
         return textoBuscar;
+    }
+
+    public JButton getBotonCerrarSesion() {
+        return botonCerrarSesion;
+    }
+
+    public void setBotonCerrarSesion(JButton botonCerrarSesion) {
+        this.botonCerrarSesion = botonCerrarSesion;
     }
 
 }
