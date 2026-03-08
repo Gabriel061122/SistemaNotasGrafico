@@ -76,6 +76,27 @@ public class ArchivoNota {
     public void eliminarNota(String nombre) throws IOException {
         try {
             Files.delete(rutaUsuario.resolve(nombre));
+            List<String> lines = Parser.lineaALinea(rutaUsuario.resolve("registry.txt"));
+
+            for (int i = 0; i < lines.size(); i++) {
+
+                if (lines.get(i).equals(nombre)) {
+
+                    lines.remove(i);
+
+                    Path rutaFichero = rutaUsuario.resolve("registry.txt");
+
+                    try (BufferedWriter writer = Files.newBufferedWriter(rutaFichero)) {
+
+                        for (String line : lines) {
+                            writer.write(line);
+                            writer.newLine();
+                        }
+                    } catch (IOException e) {
+                        throw new IOException(e);
+                    }
+                }
+            }
         } catch (IOException e) {
             throw new IOException(e);
         }

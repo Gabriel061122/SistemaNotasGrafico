@@ -125,7 +125,7 @@ public class Presentador {
                }
            });
 
-           ventanaPrincipal.getTextoTituloNotas().getDocument().addDocumentListener(new DocumentListener() {
+           ventanaPrincipal.getTextoBuscar().getDocument().addDocumentListener(new DocumentListener() {
                @Override
                public void insertUpdate(DocumentEvent e) {
                    busqueda(listaEnPantalla);
@@ -146,6 +146,23 @@ public class Presentador {
                String titulo = ventanaPrincipal.getListaNota().getSelectedValue();
                try {
                    archn.eliminarNota(titulo);
+               } catch (IOException ex) {
+                   cerrarPrograma();
+               }
+           });
+
+           ventanaPrincipal.getBotonLimpiarCampos().addActionListener(e -> {
+               ventanaPrincipal.getTextoTitulo().setText("");
+               ventanaPrincipal.getTextoContenido().setText("");
+           });
+
+           ventanaPrincipal.getBotonBorrarNotas().addActionListener(e -> {
+               try {
+                   List<String> nombresNotas= archn.listaNotas();
+
+                   for (String linea : nombresNotas) {
+                       archn.eliminarNota(linea);
+                   }
                } catch (IOException ex) {
                    cerrarPrograma();
                }
