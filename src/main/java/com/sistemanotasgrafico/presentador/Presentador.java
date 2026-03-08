@@ -9,7 +9,13 @@ import com.sistemanotasgrafico.vista.VentanaPrincipal;
 import com.sistemanotasgrafico.vista.VentanaRegistro;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Presentador {
@@ -77,13 +83,10 @@ public class Presentador {
     public void prepararVentanaPrincipal() {
 
        try{
-           DefaultListModel<String> model = new DefaultListModel<>();
-           List<String> lineas = archn.listaNotas();
+           DefaultListModel<String> listaEnPantalla = new DefaultListModel<>();
+           //List<String> titulos = archn.listaNotas();
 
-           for(String linea : lineas){
-               model.addElement(linea);
-           }
-           ventanaPrincipal.setListaNota(new JList<>(model));
+           busquedaPorDefecto( listaEnPantalla);
 
            ventanaPrincipal.getListaNota().addListSelectionListener(e->{
                if (!e.getValueIsAdjusting()) {
@@ -101,9 +104,42 @@ public class Presentador {
                    }
                }
            });
+
+           ventanaPrincipal.getBotonActualizar().addActionListener(e->{
+               String titulo = ventanaPrincipal.getTextoTitulo().getText();
+               String contenido = ventanaPrincipal.getTextoContenido().getText();
+               List<String> contenidoLineas = Arrays.asList(contenido.split("\n"));
+               Nota nota = new Nota(titulo);
+               nota.setLineas(contenidoLineas);
+               try {
+                   archn.archivarNota(nota);
+               } catch (IOException ex) {
+                   cerrarPrograma();
+               }
+           });
+
+           ventanaPrincipal.getTextoTituloNotas().getDocument().addDocumentListener(new DocumentListener() {
+               @Override
+               public void insertUpdate(DocumentEvent e) {
+                   busqueda(listaEnPantalla);
+               }
+
+               @Override
+               public void removeUpdate(DocumentEvent e) {
+                   busqueda(listaEnPantalla);
+               }
+
+               @Override
+               public void changedUpdate(DocumentEvent e) {
+                   busqueda(listaEnPantalla);
+               }
+           });{
+
+           };
+
+
        } catch (IOException e) {
            cerrarPrograma();
-
        }
 
     }
@@ -115,6 +151,45 @@ public class Presentador {
         ventanaPrincipal.getVentanaPrincipal().dispose();
         ventanaInicial.getVentana().dispose();
 
+    }
+
+    public void filtrarNota(String filtro, DefaultListModel<String> listaEnPantalla) throws IOException {
+
+        if (filtro.equals("")) {
+            busquedaPorDefecto(listaEnPantalla);
+            return;
+        }
+
+        List<String> listaNombresNotas = archn.listaNotas();
+        List<Nota> notas = new ArrayList<>();
+        for (int i = 0; i < listaNombresNotas.size(); i++) {
+            notas.add(archn.getNota(i));
+        }
+
+        listaEnPantalla.clear();
+
+        for (int i = 0; i < listaNombresNotas.size(); i++) {
+            if (notas.get(i).getTitulo().toLowerCase().contains(filtro.toLowerCase()) || notas.get(i).getLineas().contains(filtro.toLowerCase())) {
+                listaEnPantalla.addElement(listaNombresNotas.get(i));
+            }
+        }
+    }
+
+    public void busquedaPorDefecto( DefaultListModel<String> listaEnPantalla) throws IOException {
+        List<String> notas = archn.listaNotas();
+        for(String titulo : notas){
+            listaEnPantalla.addElement(titulo);
+        }
+        this.ventanaPrincipal.setListaNota(new JList<>(listaEnPantalla));
+    }
+
+    public void busqueda(DefaultListModel<String> listaEnPantalla) {
+        String cadenaBusqueda = ventanaPrincipal.getTextoTituloNotas().getText();
+        try {
+            filtrarNota(cadenaBusqueda, listaEnPantalla);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 
