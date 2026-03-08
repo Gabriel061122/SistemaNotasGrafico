@@ -75,6 +75,10 @@ public class VentanaPrincipal {
         ventanaPrincipal.setVisible(true);
     }
 
+    public void cerrarVentana() {
+        ventanaPrincipal.setVisible(false);
+    }
+
     public void aniadirEventoCrearNota(ActionListener l){
         botonCrearNota.addActionListener(l);
     }
@@ -101,5 +105,125 @@ public class VentanaPrincipal {
 
     public void aniadirEventoActualizar(ActionListener l){
         botonActualizar.addActionListener(l);
+    }
+
+    public JFrame getVentanaPrincipal() {
+        return ventanaPrincipal;
+    }
+
+    public void setVentanaPrincipal(JFrame ventanaPrincipal) {
+        this.ventanaPrincipal = ventanaPrincipal;
+    }
+
+    public JPanel getPanelNotas() {
+        return panelNotas;
+    }
+
+    public void setPanelNotas(JPanel panelNotas) {
+        this.panelNotas = panelNotas;
+    }
+
+    public JPanel getPanelAcciones() {
+        return panelAcciones;
+    }
+
+    public void setPanelAcciones(JPanel panelAcciones) {
+        this.panelAcciones = panelAcciones;
+    }
+
+    public JPanel getPanelContenido() {
+        return panelContenido;
+    }
+
+    public void setPanelContenido(JPanel panelContenido) {
+        this.panelContenido = panelContenido;
+    }
+
+    public JPanel getPanelTitulo() {
+        return panelTitulo;
+    }
+
+    public void setPanelTitulo(JPanel panelTitulo) {
+        this.panelTitulo = panelTitulo;
+    }
+
+    public JTextArea getTextoContenido() {
+        return textoContenido;
+    }
+
+    public void setTextoContenido(JTextArea textoContenido) {
+        this.textoContenido = textoContenido;
+    }
+
+    public JTextField getTextoTitulo() {
+        return textoTitulo;
+    }
+
+    public void setTextoTitulo(JTextField textoTitulo) {
+        this.textoTitulo = textoTitulo;
+    }
+
+    public JTextArea getTextoNota() {
+        return textoNota;
+    }
+
+    public void setTextoNota(JTextArea textoNota) {
+        this.textoNota = textoNota;
+    }
+
+    public JButton getBotonCrearNota() {
+        return botonCrearNota;
+    }
+
+    public void setBotonCrearNota(JButton botonCrearNota) {
+        this.botonCrearNota = botonCrearNota;
+    }
+
+    public JButton getBotonEditarNota() {
+        return botonEditarNota;
+    }
+
+    public void setBotonEditarNota(JButton botonEditarNota) {
+        this.botonEditarNota = botonEditarNota;
+    }
+
+    public JButton getBotonEliminarNota() {
+        return botonEliminarNota;
+    }
+
+    public void setBotonEliminarNota(JButton botonEliminarNota) {
+        this.botonEliminarNota = botonEliminarNota;
+    }
+
+    public JButton getBotonLimpiarCampos() {
+        return botonLimpiarCampos;
+    }
+
+    public void setBotonLimpiarCampos(JButton botonLimpiarCampos) {
+        this.botonLimpiarCampos = botonLimpiarCampos;
+    }
+
+    public JButton getBotonBuscar() {
+        return botonBuscar;
+    }
+
+    public void setBotonBuscar(JButton botonBuscar) {
+        this.botonBuscar = botonBuscar;
+    }
+
+    public JButton getBotonBorrarNotas() {
+        return botonBorrarNotas;
+    }
+
+    public void setBotonBorrarNotas(JButton botonBorrarNotas) {
+        this.botonBorrarNotas = botonBorrarNotas;
+    }
+
+    public JButton getBotonActualizar() {
+        return botonActualizar;
+    }
+
+    public void setBotonActualizar(JButton botonActualizar) {
+        this.botonActualizar = botonActualizar;
     }
 }
