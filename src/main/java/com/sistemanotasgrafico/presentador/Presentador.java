@@ -125,7 +125,7 @@ public class Presentador {
                }
            });
 
-           ventanaPrincipal.getTextoTituloNotas().getDocument().addDocumentListener(new DocumentListener() {
+           ventanaPrincipal.getTextoBuscar().getDocument().addDocumentListener(new DocumentListener() {
                @Override
                public void insertUpdate(DocumentEvent e) {
                    busqueda(listaEnPantalla);
@@ -144,8 +144,37 @@ public class Presentador {
 
            ventanaPrincipal.getBotonEliminarNota().addActionListener(e->{
                String titulo = ventanaPrincipal.getListaNota().getSelectedValue();
+               if (titulo == null || titulo.isBlank()) {
+                   return;
+               }
                try {
                    archn.eliminarNota(titulo);
+                   busquedaPorDefecto(listaEnPantalla);
+                   ventanaPrincipal.getTextoTitulo().setText("");
+                   ventanaPrincipal.getTextoContenido().setText("");
+               } catch (IOException ex) {
+                   cerrarPrograma();
+               }
+           });
+
+           ventanaPrincipal.getBotonLimpiarCampos().addActionListener(e -> {
+               ventanaPrincipal.getTextoTitulo().setText("");
+               ventanaPrincipal.getTextoContenido().setText("");
+           });
+
+           ventanaPrincipal.getBotonBorrarNotas().addActionListener(e -> {
+               try {
+                   List<String> nombresNotas= archn.listaNotas();
+
+                   for (String linea : nombresNotas) {
+                       if (linea == null || linea.isBlank()) {
+                           continue;
+                       }
+                       archn.eliminarNota(linea);
+                   }
+                   busquedaPorDefecto(listaEnPantalla);
+                   ventanaPrincipal.getTextoTitulo().setText("");
+                   ventanaPrincipal.getTextoContenido().setText("");
                } catch (IOException ex) {
                    cerrarPrograma();
                }
@@ -189,11 +218,12 @@ public class Presentador {
     }
 
     public void busquedaPorDefecto( DefaultListModel<String> listaEnPantalla) throws IOException {
+        listaEnPantalla.clear();
         List<String> notas = archn.listaNotas();
         for(String titulo : notas){
             listaEnPantalla.addElement(titulo);
         }
-        this.ventanaPrincipal.setListaNota(new JList<>(listaEnPantalla));
+        this.ventanaPrincipal.getListaNota().setModel(listaEnPantalla);
     }
 
     public void busqueda(DefaultListModel<String> listaEnPantalla) {

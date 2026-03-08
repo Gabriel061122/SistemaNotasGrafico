@@ -16,6 +16,8 @@ public class VentanaPrincipal {
     private JTextArea textoContenido;
     private JTextField textoTitulo;
     private JTextField textoBuscar;
+
+
     private JList<String> listaNota;
     private JButton botonEliminarNota;
     private JButton botonLimpiarCampos;
@@ -171,7 +173,7 @@ public class VentanaPrincipal {
     }
 
     public JTextField getTextoTituloNotas() {
-        return textoTitulo;
+        return textoBuscar;
     }
 
     public void setTextoTituloNotas(JTextField textoTitulo) {
@@ -193,4 +195,9 @@ public class VentanaPrincipal {
     public void setBotonActualizar(JButton botonActualizar) {
         this.botonActualizar = botonActualizar;
     }
+
+    public JTextField getTextoBuscar() {
+        return textoBuscar;
+    }
+
 }

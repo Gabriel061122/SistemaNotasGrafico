@@ -19,6 +19,10 @@ public class Nota {
     return getTitulo() + ".txt";
   }
 
+  public static String nombreArchivo(String nombre){
+      return nombre + ".txt";
+  }
+
   public void addLinea(String linea) {
     lineas.add(linea);
   }
