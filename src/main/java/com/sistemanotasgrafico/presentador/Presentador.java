@@ -1,5 +1,6 @@
 package com.sistemanotasgrafico.presentador;
 
+import com.sistemanotasgrafico.modelo.Nota;
 import com.sistemanotasgrafico.modelo.Usuario;
 import com.sistemanotasgrafico.persistencia.ArchivoNota;
 import com.sistemanotasgrafico.vista.VentanaInicial;
@@ -9,6 +10,7 @@ import com.sistemanotasgrafico.vista.VentanaRegistro;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.List;
 
 public class Presentador {
 
@@ -42,8 +44,7 @@ public class Presentador {
                 ventanaIniciarSesion.getVentanaInicioSesion().setVisible(false);
                 prepararVentanaPrincipal();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(ventanaIniciarSesion.getVentanaInicioSesion(), "Ha habido un error. se cerrará el programa");
-                throw new RuntimeException(ex);
+                cerrarPrograma();
             }
         });
         ventanaIniciarSesion.aniadirEventoRegistrar(e-> {
@@ -63,7 +64,7 @@ public class Presentador {
                 ArchivoNota.registrarUsuario(usuario, contrasenia);
                 archn = ArchivoNota.iniciarSesion(usuario.getNombre(), usuario.getEmail());
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                cerrarPrograma();
             }
         });
 
@@ -74,7 +75,46 @@ public class Presentador {
     }
 
     public void prepararVentanaPrincipal() {
-        
+
+       try{
+           DefaultListModel<String> model = new DefaultListModel<>();
+           List<String> lineas = archn.listaNotas();
+
+           for(String linea : lineas){
+               model.addElement(linea);
+           }
+           ventanaPrincipal.setListaNota(new JList<>(model));
+
+           ventanaPrincipal.getListaNota().addListSelectionListener(e->{
+               if (!e.getValueIsAdjusting()) {
+                   StringBuilder contenido = new StringBuilder();
+                    int index = ventanaPrincipal.getListaNota().getSelectedIndex();
+                   try {
+                       Nota nota = archn.getNota(index);
+                       for (String linea : nota.getLineas()) {
+                           contenido.append(linea);
+                       }
+                       ventanaPrincipal.getTextoContenido().setText(contenido.toString());
+                       ventanaPrincipal.getTextoTitulo().setText(nota.getTitulo());
+                   } catch (IOException ex) {
+                       throw new RuntimeException(ex);
+                   }
+               }
+           });
+       } catch (IOException e) {
+           cerrarPrograma();
+
+       }
+
+    }
+
+    public void cerrarPrograma(){
+        JOptionPane.showMessageDialog(ventanaIniciarSesion.getVentanaInicioSesion(), "Ha habido un error. se cerrará el programa");
+        ventanaIniciarSesion.getVentanaInicioSesion().dispose();
+        ventanaRegistrar.getVentanaRegistro().dispose();
+        ventanaPrincipal.getVentanaPrincipal().dispose();
+        ventanaInicial.getVentana().dispose();
+
     }
 
 

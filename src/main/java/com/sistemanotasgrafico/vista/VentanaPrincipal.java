@@ -15,7 +15,7 @@ public class VentanaPrincipal {
 
     private JTextArea textoContenido;
     private JTextField textoTitulo;
-    private JTextArea textoNota;
+    private JList<String> listaNota;
     private JButton botonCrearNota;
     private JButton botonEditarNota;
     private JButton botonEliminarNota;
@@ -29,7 +29,7 @@ public class VentanaPrincipal {
         ventanaPrincipal.setSize(900, 500);
         ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        textoNota = new JTextArea();
+        listaNota = new JList<>();
         textoContenido = new JTextArea();
         textoTitulo = new JTextField();
 
@@ -54,16 +54,14 @@ public class VentanaPrincipal {
         panelTitulo.add(textoTitulo, BorderLayout.CENTER);
 
         panelNotas.add(new JLabel("Nota:"), BorderLayout.NORTH);
-        panelNotas.add(new JScrollPane(textoNota), BorderLayout.CENTER);
+        panelNotas.add(new JScrollPane(listaNota), BorderLayout.CENTER);
         panelContenido.add(new JLabel("Contenido:"), BorderLayout.NORTH);
         panelContenido.add(new JScrollPane(textoContenido), BorderLayout.CENTER);
-        panelAcciones.add(botonCrearNota);
-        panelAcciones.add(botonEditarNota);
         panelAcciones.add(botonEliminarNota);
         panelAcciones.add(botonLimpiarCampos);
         panelAcciones.add(botonBuscar);
         panelAcciones.add(botonBorrarNotas);
-        panelAcciones.add(botonActualizar);
+        panelContenido.add(botonActualizar);
         ventanaPrincipal.add(panelTitulo, BorderLayout.NORTH);
         ventanaPrincipal.add(panelNotas, BorderLayout.WEST);
         ventanaPrincipal.add(panelAcciones, BorderLayout.SOUTH);
@@ -77,14 +75,6 @@ public class VentanaPrincipal {
 
     public void cerrarVentana() {
         ventanaPrincipal.setVisible(false);
-    }
-
-    public void aniadirEventoCrearNota(ActionListener l){
-        botonCrearNota.addActionListener(l);
-    }
-
-    public void aniadirEventoEditarNota(ActionListener l){
-        botonEditarNota.addActionListener(l);
     }
 
     public void aniadirEventoEliminarNota(ActionListener l){
@@ -163,12 +153,12 @@ public class VentanaPrincipal {
         this.textoTitulo = textoTitulo;
     }
 
-    public JTextArea getTextoNota() {
-        return textoNota;
+    public JList<String> getListaNota() {
+        return listaNota;
     }
 
-    public void setTextoNota(JTextArea textoNota) {
-        this.textoNota = textoNota;
+    public void setListaNota(JList<String> listaNota) {
+        this.listaNota = listaNota;
     }
 
     public JButton getBotonCrearNota() {
