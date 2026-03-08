@@ -22,6 +22,7 @@ public class VentanaInicial {
 
         botonIniciar = new JButton("Iniciar Sesión");
         botonRegistrar = new JButton("Registrar Usuario");
+        botonSalir = new JButton("Salir");
 
         panelPrincipal.add(botonIniciar);
         panelPrincipal.add(botonRegistrar);
