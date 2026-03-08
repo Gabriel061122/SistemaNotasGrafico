@@ -163,21 +163,29 @@ public class Presentador {
            });
 
            ventanaPrincipal.getBotonBorrarNotas().addActionListener(e -> {
-               try {
-                   List<String> nombresNotas= archn.listaNotas();
+               if (JOptionPane.showConfirmDialog(
+                       ventanaPrincipal.getVentanaPrincipal(),
+                       "¿Seguro que quieres borrar la nota?",
+                       "Confirmación",
+                       JOptionPane.YES_NO_OPTION
+               ) == JOptionPane.YES_OPTION){
+                    try {
+                        List<String> nombresNotas= archn.listaNotas();
 
-                   for (String linea : nombresNotas) {
-                       if (linea == null || linea.isBlank()) {
-                           continue;
-                       }
-                       archn.eliminarNota(linea);
-                   }
-                   busquedaPorDefecto(listaEnPantalla);
-                   ventanaPrincipal.getTextoTitulo().setText("");
-                   ventanaPrincipal.getTextoContenido().setText("");
-               } catch (IOException ex) {
-                   cerrarPrograma();
-               }
+                        for (String linea : nombresNotas) {
+                            if (linea == null || linea.isBlank()) {
+                                continue;
+                            }
+                            archn.eliminarNota(linea);
+                        }
+                        busquedaPorDefecto(listaEnPantalla);
+                        ventanaPrincipal.getTextoTitulo().setText("");
+                        ventanaPrincipal.getTextoContenido().setText("");
+                    } catch (IOException ex) {
+                        cerrarPrograma();
+                    }
+                }
+
            });
 
        } catch (IOException e) {
