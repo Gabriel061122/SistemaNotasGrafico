@@ -17,14 +17,13 @@ public class VentanaPrincipal {
     private JTextField textoTitulo;
     private JTextField textoBuscar;
     private JList<String> listaNota;
-    private JButton botonCrearNota;
-    private JButton botonEditarNota;
     private JButton botonEliminarNota;
     private JButton botonLimpiarCampos;
     private JButton botonBorrarNotas;
     private JButton botonActualizar;
 
     public VentanaPrincipal() {
+
         ventanaPrincipal = new JFrame("Ventana Principal");
         ventanaPrincipal.setSize(900, 500);
         ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,9 +31,8 @@ public class VentanaPrincipal {
         listaNota = new JList<>();
         textoContenido = new JTextArea();
         textoTitulo = new JTextField();
+        textoBuscar = new JTextField();
 
-        botonCrearNota = new JButton("Crear Nota");
-        botonEditarNota = new JButton("Editar Nota");
         botonEliminarNota = new JButton("Eliminar Nota");
         botonLimpiarCampos = new JButton("Limpiar Campos");
         botonBorrarNotas = new JButton("Borrar");
@@ -56,7 +54,7 @@ public class VentanaPrincipal {
         panelNotas.add(new JScrollPane(listaNota), BorderLayout.CENTER);
         panelContenido.add(new JLabel("Contenido:"), BorderLayout.NORTH);
         panelContenido.add(new JScrollPane(textoContenido), BorderLayout.CENTER);
-        panelAcciones.add(botonEliminarNota);
+        panelContenido.add(botonEliminarNota);
         panelAcciones.add(botonLimpiarCampos);
         panelNotas.add(textoTitulo);
         panelAcciones.add(botonBorrarNotas);
@@ -154,22 +152,6 @@ public class VentanaPrincipal {
 
     public void setListaNota(JList<String> listaNota) {
         this.listaNota = listaNota;
-    }
-
-    public JButton getBotonCrearNota() {
-        return botonCrearNota;
-    }
-
-    public void setBotonCrearNota(JButton botonCrearNota) {
-        this.botonCrearNota = botonCrearNota;
-    }
-
-    public JButton getBotonEditarNota() {
-        return botonEditarNota;
-    }
-
-    public void setBotonEditarNota(JButton botonEditarNota) {
-        this.botonEditarNota = botonEditarNota;
     }
 
     public JButton getBotonEliminarNota() {

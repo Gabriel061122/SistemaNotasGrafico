@@ -11,6 +11,7 @@ import com.sistemanotasgrafico.vista.VentanaRegistro;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -99,6 +100,11 @@ public class Presentador {
                        }
                        ventanaPrincipal.getTextoContenido().setText(contenido.toString());
                        ventanaPrincipal.getTextoTitulo().setText(nota.getTitulo());
+                       if (ventanaPrincipal.getListaNota().getSelectedIndex() != -1) {
+                           ventanaPrincipal.getBotonEliminarNota().setSelected(true);
+                       } else {
+                           ventanaPrincipal.getBotonEliminarNota().setSelected(true);
+                       }
                    } catch (IOException ex) {
                        throw new RuntimeException(ex);
                    }
@@ -113,6 +119,7 @@ public class Presentador {
                nota.setLineas(contenidoLineas);
                try {
                    archn.archivarNota(nota);
+                   busquedaPorDefecto( listaEnPantalla);
                } catch (IOException ex) {
                    cerrarPrograma();
                }
@@ -133,10 +140,16 @@ public class Presentador {
                public void changedUpdate(DocumentEvent e) {
                    busqueda(listaEnPantalla);
                }
-           });{
+           });
 
-           };
-
+           ventanaPrincipal.getBotonEliminarNota().addActionListener(e->{
+               String titulo = ventanaPrincipal.getListaNota().getSelectedValue();
+               try {
+                   archn.eliminarNota(titulo);
+               } catch (IOException ex) {
+                   cerrarPrograma();
+               }
+           });
 
        } catch (IOException e) {
            cerrarPrograma();
