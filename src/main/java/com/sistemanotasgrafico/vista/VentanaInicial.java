@@ -1,8 +1,7 @@
 package com.sistemanotasgrafico.vista;
 
-import com.sistemanotasgrafico.modelo.Usuario;
-
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class VentanaInicial {
@@ -19,13 +18,28 @@ public class VentanaInicial {
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
 
         botonIniciar = new JButton("Iniciar Sesión");
         botonRegistrar = new JButton("Registrar Usuario");
         botonSalir = new JButton("Salir");
 
-        panelPrincipal.add(botonIniciar);
-        panelPrincipal.add(botonRegistrar);
+        JLabel labelTitulo = new JLabel("Sistema de Notas");
+        labelTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel labelInstruccion = new JLabel("Selecciona una opción:");
+        labelInstruccion.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JPanel panelBotones = new JPanel(new GridLayout(3, 1, 10, 10));
+        panelBotones.add(botonIniciar);
+        panelBotones.add(botonRegistrar);
+        panelBotones.add(botonSalir);
+
+        panelPrincipal.add(Box.createVerticalStrut(20));
+        panelPrincipal.add(labelTitulo);
+        panelPrincipal.add(Box.createVerticalStrut(10));
+        panelPrincipal.add(labelInstruccion);
+        panelPrincipal.add(Box.createVerticalStrut(20));
+        panelPrincipal.add(panelBotones);
         ventana.add(panelPrincipal);
 
     }
