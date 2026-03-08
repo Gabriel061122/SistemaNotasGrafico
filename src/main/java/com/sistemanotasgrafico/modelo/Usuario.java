@@ -1,4 +1,4 @@
-package notasusuario.modelo;
+package com.sistemanotasgrafico.modelo;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

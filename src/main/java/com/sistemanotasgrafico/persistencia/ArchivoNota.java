@@ -1,8 +1,10 @@
-package notasusuario.archivos;
+package com.sistemanotasgrafico.persistencia;
 
-import notasusuario.excepciones.NotaYaExistenteException;
-import notasusuario.modelo.Nota;
-import notasusuario.modelo.Usuario;
+import com.sistemanotasgrafico.persistencia.Parser ;
+
+import com.sistemanotasgrafico.excepciones.NotaYaExistenteException;
+import com.sistemanotasgrafico.modelo.Nota;
+import com.sistemanotasgrafico.modelo.Usuario;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

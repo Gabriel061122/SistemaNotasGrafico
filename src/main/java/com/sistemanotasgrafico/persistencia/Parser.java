@@ -1,4 +1,4 @@
-package notasusuario.archivos;
+package com.sistemanotasgrafico.persistencia;
 
 import java.io.BufferedReader;
 import java.io.IOException;
