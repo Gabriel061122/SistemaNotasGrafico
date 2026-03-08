@@ -11,6 +11,7 @@ public class VentanaInicioSesion {
     private JTextField textoEmail;
     private JPasswordField textoContrasenia;
     private JButton botonIniciarSesion;
+    private JButton botonIrARegistro;
 
     public VentanaInicioSesion() {
         ventanaInicioSesion = new JFrame("Ventana Inicio de Sesion");
@@ -22,13 +23,18 @@ public class VentanaInicioSesion {
         textoEmail = new JTextField();
         textoContrasenia = new JPasswordField();
         botonIniciarSesion = new JButton("Iniciar Sesion");
+        botonIrARegistro = new JButton("Ir a Registro");
 
         panelFormulario.add(new JLabel("Email:"));
         panelFormulario.add(textoEmail);
         panelFormulario.add(new JLabel("Contrasenia:"));
         panelFormulario.add(textoContrasenia);
-        panelFormulario.add(new JLabel());
-        panelFormulario.add(botonIniciarSesion);
+        JPanel panelBotones = new JPanel(new GridLayout(1, 2, 10, 0));
+        panelBotones.add(botonIniciarSesion);
+        panelBotones.add(botonIrARegistro);
+
+        panelFormulario.add(new JLabel(""));
+        panelFormulario.add(panelBotones);
 
         ventanaInicioSesion.add(panelFormulario);
     }
@@ -39,5 +45,9 @@ public class VentanaInicioSesion {
 
     public void aniadirEventoIniciarSesion(ActionListener l) {
         botonIniciarSesion.addActionListener(l);
+    }
+
+    public void aniadirEventoRegistrar(ActionListener l) {
+        botonIrARegistro.addActionListener(l);
     }
 }
