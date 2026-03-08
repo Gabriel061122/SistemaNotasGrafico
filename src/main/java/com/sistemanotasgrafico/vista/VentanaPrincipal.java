@@ -15,12 +15,12 @@ public class VentanaPrincipal {
 
     private JTextArea textoContenido;
     private JTextField textoTitulo;
+    private JTextField textoBuscar;
     private JList<String> listaNota;
     private JButton botonCrearNota;
     private JButton botonEditarNota;
     private JButton botonEliminarNota;
     private JButton botonLimpiarCampos;
-    private JButton botonBuscar;
     private JButton botonBorrarNotas;
     private JButton botonActualizar;
 
@@ -37,7 +37,6 @@ public class VentanaPrincipal {
         botonEditarNota = new JButton("Editar Nota");
         botonEliminarNota = new JButton("Eliminar Nota");
         botonLimpiarCampos = new JButton("Limpiar Campos");
-        botonBuscar = new JButton("Buscar");
         botonBorrarNotas = new JButton("Borrar");
         botonActualizar = new JButton("Actualizar");
 
@@ -59,7 +58,7 @@ public class VentanaPrincipal {
         panelContenido.add(new JScrollPane(textoContenido), BorderLayout.CENTER);
         panelAcciones.add(botonEliminarNota);
         panelAcciones.add(botonLimpiarCampos);
-        panelAcciones.add(botonBuscar);
+        panelNotas.add(textoTitulo);
         panelAcciones.add(botonBorrarNotas);
         panelContenido.add(botonActualizar);
         ventanaPrincipal.add(panelTitulo, BorderLayout.NORTH);
@@ -83,10 +82,6 @@ public class VentanaPrincipal {
 
     public void aniadirEventoLimpiarCampos(ActionListener l){
         botonLimpiarCampos.addActionListener(l);
-    }
-
-    public void aniadirEventoBuscar(ActionListener l){
-        botonBuscar.addActionListener(l);
     }
 
     public void aniadirEventoBorrarNotas(ActionListener l){
@@ -193,12 +188,12 @@ public class VentanaPrincipal {
         this.botonLimpiarCampos = botonLimpiarCampos;
     }
 
-    public JButton getBotonBuscar() {
-        return botonBuscar;
+    public JTextField getTextoTituloNotas() {
+        return textoTitulo;
     }
 
-    public void setBotonBuscar(JButton botonBuscar) {
-        this.botonBuscar = botonBuscar;
+    public void setTextoTituloNotas(JTextField textoTitulo) {
+        this.textoTitulo = textoTitulo;
     }
 
     public JButton getBotonBorrarNotas() {
