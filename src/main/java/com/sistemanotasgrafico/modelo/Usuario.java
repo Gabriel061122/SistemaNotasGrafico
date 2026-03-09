@@ -16,7 +16,7 @@ public class Usuario {
   private String verificarMail(String email) {
     Pattern pattern = Pattern.compile("[A-Za-z0-9]+@[A-Za-z0-9]+\\.[a-z0-9]+$");
     Matcher matcher = pattern.matcher(email);
-    if (matcher.find()) {
+    if (matcher.matches()) {
       return email;
     }
     throw new IllegalArgumentException("Se ha insertado un email no válido");

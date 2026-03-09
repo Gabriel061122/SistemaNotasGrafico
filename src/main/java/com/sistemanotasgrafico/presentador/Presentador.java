@@ -1,5 +1,6 @@
 package com.sistemanotasgrafico.presentador;
 
+import com.sistemanotasgrafico.excepciones.NotaYaExistenteException;
 import com.sistemanotasgrafico.modelo.Nota;
 import com.sistemanotasgrafico.modelo.Usuario;
 import com.sistemanotasgrafico.persistencia.ArchivoNota;
@@ -11,9 +12,6 @@ import com.sistemanotasgrafico.vista.VentanaRegistro;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +26,8 @@ public class Presentador {
     private VentanaInicioSesion ventanaIniciarSesion;
     private VentanaRegistro ventanaRegistrar;
 
+    DefaultListModel<String> listaEnPantalla = new DefaultListModel<>();
+
     public Presentador() {
         this.ventanaPrincipal = new VentanaPrincipal();
         this.ventanaInicial = new VentanaInicial();
@@ -40,6 +40,11 @@ public class Presentador {
             ventanaInicial.cerrarVentana();
             ventanaIniciarSesion.mostrarVentana();
         });
+
+        ventanaInicial.aniadirEventoRegistrar(e->{
+            ventanaRegistrar.mostrarVentana();
+            ventanaInicial.cerrarVentana();
+        });
     }
 
     public void prepararVentanaIniciarSesion() {
@@ -49,9 +54,10 @@ public class Presentador {
             try {
                 archn = ArchivoNota.iniciarSesion(email, contrasenia);
                 ventanaIniciarSesion.getVentanaInicioSesion().setVisible(false);
-                prepararVentanaPrincipal();
+                ventanaPrincipal.mostrarVentana();
+                busquedaPorDefecto(listaEnPantalla);
             } catch (IOException ex) {
-                cerrarPrograma();
+                showMensaje(ex.getMessage());
             }
         });
         ventanaIniciarSesion.aniadirEventoRegistrar(e-> {
@@ -65,34 +71,40 @@ public class Presentador {
             String nombre = ventanaRegistrar.getTextoNombre().getText();
             String email = ventanaRegistrar.getTextoEmail().getText();
             String contrasenia = ventanaRegistrar.getTextoContrasenia().getText();
-            Usuario usuario = new Usuario(email, contrasenia);
 
             try {
+                Usuario usuario = new Usuario(nombre, email);
                 ArchivoNota.registrarUsuario(usuario, contrasenia);
-                archn = ArchivoNota.iniciarSesion(usuario.getNombre(), usuario.getEmail());
+                archn = ArchivoNota.iniciarSesion(email, contrasenia);
+                ventanaRegistrar.cerrarVentana();
+                ventanaPrincipal.mostrarVentana();
+                busquedaPorDefecto(listaEnPantalla);
+            } catch (IllegalArgumentException ex) {
+                showMensaje(ex.getMessage());
             } catch (IOException ex) {
-                cerrarPrograma();
+                showMensaje(ex.getMessage());
             }
         });
 
         ventanaRegistrar.aniadirEventoIrAInicioSesion(e->{
             ventanaIniciarSesion.mostrarVentana();
-            ventanaRegistrar.mostrarVentana();
+            ventanaRegistrar.cerrarVentana();
         });
     }
 
     public void prepararVentanaPrincipal() {
 
        try{
-           DefaultListModel<String> listaEnPantalla = new DefaultListModel<>();
-           //List<String> titulos = archn.listaNotas();
 
-           busquedaPorDefecto( listaEnPantalla);
+           //List<String> titulos = archn.listaNotas();
 
            ventanaPrincipal.getListaNota().addListSelectionListener(e->{
                if (!e.getValueIsAdjusting()) {
                    StringBuilder contenido = new StringBuilder();
-                    int index = ventanaPrincipal.getListaNota().getSelectedIndex();
+                   int index = ventanaPrincipal.getListaNota().getSelectedIndex();
+                   if (index < 0) {
+                       return;
+                   }
                    try {
                        Nota nota = archn.getNota(index);
                        for (String linea : nota.getLineas()) {
@@ -106,7 +118,7 @@ public class Presentador {
                            ventanaPrincipal.getBotonEliminarNota().setSelected(true);
                        }
                    } catch (IOException ex) {
-                       throw new RuntimeException(ex);
+                       showMensaje(ex.getMessage());
                    }
                }
            });
@@ -119,8 +131,13 @@ public class Presentador {
                nota.setLineas(contenidoLineas);
                try {
                    archn.archivarNota(nota);
+                   try {
+                       archn.aniadirRegistroNota(nota);
+                   } catch (NotaYaExistenteException ignored) {
+                   }
                    busquedaPorDefecto( listaEnPantalla);
                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
                    cerrarPrograma();
                }
            });
@@ -153,6 +170,7 @@ public class Presentador {
                    ventanaPrincipal.getTextoTitulo().setText("");
                    ventanaPrincipal.getTextoContenido().setText("");
                } catch (IOException ex) {
+                   System.out.println(ex.getMessage());
                    cerrarPrograma();
                }
            });
@@ -182,6 +200,7 @@ public class Presentador {
                         ventanaPrincipal.getTextoTitulo().setText("");
                         ventanaPrincipal.getTextoContenido().setText("");
                     } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
                         cerrarPrograma();
                     }
                 }
@@ -193,7 +212,7 @@ public class Presentador {
                ventanaIniciarSesion.mostrarVentana();
            });
 
-       } catch (IOException e) {
+       } catch (Exception e) {
            cerrarPrograma();
        }
 
@@ -224,7 +243,16 @@ public class Presentador {
         listaEnPantalla.clear();
 
         for (int i = 0; i < listaNombresNotas.size(); i++) {
-            if (notas.get(i).getTitulo().toLowerCase().contains(filtro.toLowerCase()) || notas.get(i).getLineas().contains(filtro.toLowerCase())) {
+            boolean seEncuentraEnTitulo = notas.get(i).getTitulo().contains(filtro);
+            boolean seEncuentraEnNotas = false;
+
+            for (String linea : notas.get(i).getLineas()) {
+                if (linea.contains(filtro)) {
+                    seEncuentraEnNotas = true;
+                    break;
+                }
+            }
+            if (seEncuentraEnTitulo || seEncuentraEnNotas) {
                 listaEnPantalla.addElement(listaNombresNotas.get(i));
             }
         }
@@ -246,6 +274,19 @@ public class Presentador {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public void iniciar(){
+        prepararVentanaInicial();
+        prepararVentanaIniciarSesion();
+        prepararVentanaRegistrar();
+        prepararVentanaPrincipal();
+
+        ventanaInicial.mostrarVentana();
+    }
+
+    public void showMensaje(String mensaje){
+        JOptionPane.showMessageDialog(null, mensaje);
     }
 
 

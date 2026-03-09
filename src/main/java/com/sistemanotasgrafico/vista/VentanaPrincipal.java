@@ -12,6 +12,7 @@ public class VentanaPrincipal {
     private JPanel panelAcciones;
     private JPanel panelContenido;
     private JPanel panelTitulo;
+    private JPanel panelBusqueda;
 
     private JTextArea textoContenido;
     private JTextField textoTitulo;
@@ -47,23 +48,30 @@ public class VentanaPrincipal {
         panelAcciones = new JPanel();
         panelContenido = new JPanel();
         panelTitulo = new JPanel(new BorderLayout(10, 10));
+        panelBusqueda = new JPanel(new BorderLayout(10, 10));
 
         panelNotas.setLayout(new BorderLayout(5, 5));
         panelContenido.setLayout(new BorderLayout(5, 5));
 
         panelTitulo.add(new JLabel("Titulo de la nota:"), BorderLayout.WEST);
         panelTitulo.add(textoTitulo, BorderLayout.CENTER);
+        panelBusqueda.add(new JLabel("Buscar:"), BorderLayout.WEST);
+        panelBusqueda.add(textoBuscar, BorderLayout.CENTER);
+        panelTitulo.add(panelBusqueda, BorderLayout.SOUTH);
 
+        JScrollPane scrollPane = new JScrollPane(listaNota);
+        scrollPane.setPreferredSize(new Dimension(250, 375));
         panelNotas.add(new JLabel("Nota:"), BorderLayout.NORTH);
-        panelNotas.add(new JScrollPane(listaNota), BorderLayout.CENTER);
+        panelNotas.add(scrollPane, BorderLayout.CENTER);
         panelContenido.add(new JLabel("Contenido:"), BorderLayout.NORTH);
         panelContenido.add(new JScrollPane(textoContenido), BorderLayout.CENTER);
-        panelContenido.add(botonEliminarNota);
+        JPanel panelBotonesContenido = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBotonesContenido.add(botonActualizar);
+        panelBotonesContenido.add(botonEliminarNota);
+        panelContenido.add(panelBotonesContenido, BorderLayout.SOUTH);
         panelAcciones.add(botonLimpiarCampos);
-        panelNotas.add(textoTitulo);
         panelAcciones.add(botonBorrarNotas);
         panelAcciones.add(botonCerrarSesion);
-        panelContenido.add(botonActualizar);
         ventanaPrincipal.add(panelTitulo, BorderLayout.NORTH);
         ventanaPrincipal.add(panelNotas, BorderLayout.WEST);
         ventanaPrincipal.add(panelAcciones, BorderLayout.SOUTH);
@@ -184,7 +192,7 @@ public class VentanaPrincipal {
     }
 
     public void setTextoTituloNotas(JTextField textoTitulo) {
-        this.textoTitulo = textoTitulo;
+        this.textoBuscar = textoTitulo;
     }
 
     public JButton getBotonBorrarNotas() {
