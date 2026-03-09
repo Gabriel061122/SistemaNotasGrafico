@@ -178,6 +178,7 @@ public class Presentador {
            ventanaPrincipal.getBotonLimpiarCampos().addActionListener(e -> {
                ventanaPrincipal.getTextoTitulo().setText("");
                ventanaPrincipal.getTextoContenido().setText("");
+               ventanaPrincipal.getTextoBuscar().setText("");
            });
 
            ventanaPrincipal.getBotonBorrarNotas().addActionListener(e -> {
