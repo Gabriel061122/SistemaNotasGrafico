@@ -12,6 +12,7 @@ public class VentanaPrincipal {
     private JPanel panelAcciones;
     private JPanel panelContenido;
     private JPanel panelTitulo;
+    private JPanel panelBusqueda;
 
     private JTextArea textoContenido;
     private JTextField textoTitulo;
@@ -23,6 +24,7 @@ public class VentanaPrincipal {
     private JButton botonLimpiarCampos;
     private JButton botonBorrarNotas;
     private JButton botonActualizar;
+    private JButton botonCerrarSesion;
 
     public VentanaPrincipal() {
 
@@ -39,28 +41,37 @@ public class VentanaPrincipal {
         botonLimpiarCampos = new JButton("Limpiar Campos");
         botonBorrarNotas = new JButton("Borrar");
         botonActualizar = new JButton("Actualizar");
+        botonCerrarSesion = new JButton("Cerrar Sesion");
 
 
         panelNotas = new JPanel();
         panelAcciones = new JPanel();
         panelContenido = new JPanel();
         panelTitulo = new JPanel(new BorderLayout(10, 10));
+        panelBusqueda = new JPanel(new BorderLayout(10, 10));
 
         panelNotas.setLayout(new BorderLayout(5, 5));
         panelContenido.setLayout(new BorderLayout(5, 5));
 
         panelTitulo.add(new JLabel("Titulo de la nota:"), BorderLayout.WEST);
         panelTitulo.add(textoTitulo, BorderLayout.CENTER);
+        panelBusqueda.add(new JLabel("Buscar:"), BorderLayout.WEST);
+        panelBusqueda.add(textoBuscar, BorderLayout.CENTER);
+        panelTitulo.add(panelBusqueda, BorderLayout.SOUTH);
 
+        JScrollPane scrollPane = new JScrollPane(listaNota);
+        scrollPane.setPreferredSize(new Dimension(250, 375));
         panelNotas.add(new JLabel("Nota:"), BorderLayout.NORTH);
-        panelNotas.add(new JScrollPane(listaNota), BorderLayout.CENTER);
+        panelNotas.add(scrollPane, BorderLayout.CENTER);
         panelContenido.add(new JLabel("Contenido:"), BorderLayout.NORTH);
         panelContenido.add(new JScrollPane(textoContenido), BorderLayout.CENTER);
-        panelContenido.add(botonEliminarNota);
+        JPanel panelBotonesContenido = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBotonesContenido.add(botonActualizar);
+        panelBotonesContenido.add(botonEliminarNota);
+        panelContenido.add(panelBotonesContenido, BorderLayout.SOUTH);
         panelAcciones.add(botonLimpiarCampos);
-        panelNotas.add(textoTitulo);
         panelAcciones.add(botonBorrarNotas);
-        panelContenido.add(botonActualizar);
+        panelAcciones.add(botonCerrarSesion);
         ventanaPrincipal.add(panelTitulo, BorderLayout.NORTH);
         ventanaPrincipal.add(panelNotas, BorderLayout.WEST);
         ventanaPrincipal.add(panelAcciones, BorderLayout.SOUTH);
@@ -90,6 +101,10 @@ public class VentanaPrincipal {
 
     public void aniadirEventoActualizar(ActionListener l){
         botonActualizar.addActionListener(l);
+    }
+
+    public void aniadirEventoCerrarSesion(ActionListener l){
+        botonCerrarSesion.addActionListener(l);
     }
 
     public JFrame getVentanaPrincipal() {
@@ -177,7 +192,7 @@ public class VentanaPrincipal {
     }
 
     public void setTextoTituloNotas(JTextField textoTitulo) {
-        this.textoTitulo = textoTitulo;
+        this.textoBuscar = textoTitulo;
     }
 
     public JButton getBotonBorrarNotas() {
@@ -198,6 +213,14 @@ public class VentanaPrincipal {
 
     public JTextField getTextoBuscar() {
         return textoBuscar;
+    }
+
+    public JButton getBotonCerrarSesion() {
+        return botonCerrarSesion;
+    }
+
+    public void setBotonCerrarSesion(JButton botonCerrarSesion) {
+        this.botonCerrarSesion = botonCerrarSesion;
     }
 
 }

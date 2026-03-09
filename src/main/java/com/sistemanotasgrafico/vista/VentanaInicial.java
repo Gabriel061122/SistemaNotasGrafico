@@ -52,6 +52,10 @@ public class VentanaInicial {
         ventana.setVisible(false);
     }
 
+    public void mostrarVentana(){
+        ventana.setVisible(true);
+    }
+
     public void  aniadirEventoIniciar(ActionListener l){
         botonIniciar.addActionListener(l);
     }
